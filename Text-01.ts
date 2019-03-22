@@ -4,7 +4,7 @@ const myOpponent = "Ivysaur"
 const attackMove = "Shadow Ball"
 
 let myHP = 100
-let oppHP = 1000
+let oppHP = 200
 
 // To get random damage
 //const damage = Math.floor(Math.random() * 10)
