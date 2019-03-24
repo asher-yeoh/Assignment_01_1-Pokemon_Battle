@@ -73,6 +73,7 @@ while (counter < 10) {
      
         //Break while loop if Player1 wins.
         if (game == false) {
+            console.log("----------------------------------------------")
             console.log(playerName + " wins this game!\n")
             console.log("----------------------------------------------")
             break
@@ -95,6 +96,7 @@ while (counter < 10) {
         
         //Break while loop if Player2 wins.
         if (game == false) {
+            console.log("----------------------------------------------")
             console.log(playerName + " wins this game!\n")
             console.log("----------------------------------------------")
             break
@@ -103,6 +105,7 @@ while (counter < 10) {
 
     //If after 9 rounds still no winner then it is a draw.
     if (counter == 9){
+        console.log("----------------------------------------------")
         console.log("This game is a draw.\n")
         console.log("----------------------------------------------")
     }
