@@ -17,48 +17,26 @@ function displayAttOptions(array) {
 console.log("-------------------------------------------------------------------------------------------------")
 }
 
-// function totalDamageCal(array, move) {
-
-//     if (array[move].effect = "Poison"){
-
-//         //let hp = hp - (hp * 0.1)
-//         console.log("Current effect: " + array[move].effect + "\n")
-
-//         let damageHP = 0.1
-//         let counterPoison = 5
-//         console.log("Current damageHP: " + damageHP + "\n")
-//         console.log("counterPoison: " + counterPoison + "\n")
-//         return {counterPoison, damageHP}
-//     }
-//     else {
-//         console.log("Current damageHP: " + damageHP + "\n")
-//         console.log("counterPoison: " + counterPoison + "\n")
-//         return {counterPoison, damageHP}
-    
-//     }
-        
-// }
-
 const pokemons = [
     {
         name: "Pidgey",
-        hp: 60,
+        hp: 160,
     },
     {
         name: "Gengar",
-        hp: 75,
+        hp: 175,
     },
     {
         name: "Charmander",
-        hp: 95,
+        hp: 195,
     },
     {
         name: "Squirtle",
-        hp: 85,
+        hp: 185,
     },
     {
         name: "Meloetta",
-        hp: 65,
+        hp: 165,
     },
 ]
 
@@ -107,20 +85,20 @@ const attOptions = [
     },  
 ]
 
+//To get random damage.
+//const damage = Math.floor(Math.random() * 10)
+
 //Declare EXP points.
 const exp = 50
 
-//Initialize isMyTurn = true
+//Initialize isMyTurn.
 let isMyTurn = true
 
-// //Initialize counterPoison
-// let counterPoison = 0
-// let damageHP = 0
+//Initialize Poison effect.
+let oppPoison = false          
+let counterPoison = 0
 
-//To get random damage
-//const damage = Math.floor(Math.random() * 10)
-
-//Initialize sleep effect.
+//Initialize Sleep effect.
 let oppSleep = false          
 let counterSleep = 0
 
@@ -133,7 +111,7 @@ let oppHP = pokemons[0].hp
 //Display opponent's name.
 console.log("You have encountered a wild " + oppPokemon + ".\n")
 
-//Choose a pokemon to summon.
+//Select a pokemon to summon.
 displaypokemons(pokemons)
 let ansPokemon = question('\nSelect a Pokemon to summon: ')
 
@@ -156,6 +134,7 @@ while (myHP > 0 && oppHP > 0) {
     let defenderName = isMyTurn ? oppPokemon : myPokemon
 
     //Variable will reset each time the while loop runs.
+    let attackerHP = isMyTurn ? myHP : oppHP
     let defenderHP = isMyTurn ? oppHP : myHP
 
     //Display attacker's turn.
@@ -163,21 +142,7 @@ while (myHP > 0 && oppHP > 0) {
     //Display defender's current HP.
     console.log(defenderName + "'s current HP is " + defenderHP + ".\n")
 
-    // if (counterPoison != 0){
-    //     //Display how many times left for Poison effect.
-    //     console.log("Poison effect left for: " + counterPoison + " turn(s).\n")
-
-    //     defenderHP = defenderHP - (defenderHP * damageHP)
-        
-    //     //Display current HP after effect
-    //     console.log("Current HP after Poison effect " + defenderHP + "\n")
-
-    //     counterPoison -= 1
-
-    //     //
-    //     console.log("Poison effect left for next round: " + counterPoison + " turn(s).\n")
-    // }
-    
+    //Player's turn.
     if (isMyTurn) {
   
         //Choose movement
@@ -185,47 +150,70 @@ while (myHP > 0 && oppHP > 0) {
         let ansMove = question('Select a move to attack: ')
 
         //Pokemon attacks.
-        console.log(attackerName + " uses " + attOptions[ansMove].move + " to hit.\n")
-
-        //Call function if there is effect.
-        //let {counterPoison, damageHP} = totalDamageCal(attOptions, ansMove)
-        
-        //Check if sleep effect is enabled.
-        if (attOptions[ansMove].effect == "Sleep"){
-             oppSleep = true            
-             counterSleep = 5
-
-             console.log("Sleep effect is cast to " + defenderName + ".\n")
-            //  console.log("oppSleep: " + oppSleep)
-            //  console.log("counterSleep: " + counterSleep)
-        }
-
+        console.log("\n" + attackerName + " uses " + attOptions[ansMove].move + " to hit.")
         console.log(attOptions[ansMove].move + " hits for " + attOptions[ansMove].damage + " damage.")
              
         let totalDamage = attOptions[ansMove].damage - attOptions[ansMove].def
 
-        oppHP = oppHP - totalDamage
+        defenderHP = defenderHP - totalDamage
 
-        console.log("DEF point is " + attOptions[ansMove].def + " for " + attOptions[ansMove].move +  ". Total damage is " + totalDamage)
+        console.log("DEF point is " + attOptions[ansMove].def + " for " + attOptions[ansMove].move +  ". Total damage is " + totalDamage + ".")
       
-
-        if (oppHP < 0) {
-            oppHP = 0
+        if (defenderHP < 0) {
+            defenderHP = 0
         }
 
-        console.log(defenderName + "'s HP is reduced to " + oppHP + ".")
+        console.log("\n" + defenderName + "'s HP is reduced to " + defenderHP + ".")
+
+        myHP = attackerHP
+        oppHP = defenderHP
+
+        //Check if Poison effect is enabled.
+        if (attOptions[ansMove].effect == "Poison"){
+            oppPoison = true            
+            counterPoison = 5
+        
+            console.log("\nPoison effect is cast to " + defenderName + ".\n")
+        }
+        //Check if Sleep effect is enabled.
+        if (attOptions[ansMove].effect == "Sleep"){
+            oppSleep = true            
+            counterSleep = 5
+        
+            console.log("\nSleep effect is cast to " + defenderName + ".\n")
+        }
     }
 
+    //Opponent's turn.
     else {
+        if(oppPoison){
+            console.log(attackerName + " is under Poison effect hence 10% of current HP will be damaged.")
 
-        // console.log("CP1 - oppSleep: " + oppSleep)
-        // console.log("CP1 - counterSleep: " + counterSleep)
+            //Display attacker's current HP.
+            console.log(attackerName + "'s current HP is " + attackerHP + ".")
+
+            //Round up to 0 decimal.
+            let poisonDamage = Math.ceil(attackerHP * 0.1)
+
+            console.log("Total damage from Poison effect is " + poisonDamage + ".")
+
+            attackerHP = attackerHP - poisonDamage
+
+            console.log(attackerName + "'s HP is reduced to " + attackerHP + ".")
+
+            counterPoison -= 1
+            console.log("Poison effect counter still left: " + counterPoison + " times.\n")
+
+            if (counterPoison == 0){
+                oppPoison = !oppPoison
+            }
+        }
 
         if (oppSleep){
 
-            console.log(defenderName + " is under Sleep effect hence unable to attack.")
+            console.log(attackerName + " is under Sleep effect hence unable to attack.")
             counterSleep -= 1
-            console.log("Sleep effect counter stil left: " + counterSleep + " times.\n")
+            console.log("Sleep effect counter still left: " + counterSleep + " times.\n")
 
             if (counterSleep == 0){
                 oppSleep = !oppSleep
@@ -239,28 +227,26 @@ while (myHP > 0 && oppHP > 0) {
 
             console.log(attOptions[1].move + " hits for " + attOptions[1].damage + " damage.")
 
-            
             let totalDamage = attOptions[1].damage - attOptions[1].def
 
-            myHP = myHP - totalDamage
+            defenderHP = defenderHP - totalDamage
 
-            console.log("DEF point is " + attOptions[1].def + " for " + attOptions[1].move + ". Total damage is " + totalDamage)
+            console.log("DEF point is " + attOptions[1].def + " for " + attOptions[1].move + ". Total damage is " + totalDamage + ".")
 
-            if (myHP < 0) {
-                myHP = 0
+            if (defenderHP < 0) {
+                defenderHP = 0
             }
 
-            console.log(defenderName + "'s HP is reduced to " + myHP + ".")
+            console.log("\n" + defenderName + "'s HP is reduced to " + defenderHP + ".")
         }
-    }
 
-    // console.log("CP2 - oppSleep: " + oppSleep)
-    // console.log("CP2 - counterSleep: " + counterSleep)
+        oppHP = attackerHP
+        myHP = defenderHP
+
+    }
 
     isMyTurn = !isMyTurn
 
-    // console.log("CP3 - oppSleep: " + oppSleep)
-    // console.log("CP3 - counterSleep: " + counterSleep)
     console.log("-------------------------------------------------------------------------------------------------") 
 }
 
