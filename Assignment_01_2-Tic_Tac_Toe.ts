@@ -17,6 +17,7 @@ function matchingFlags(array){
         //Diagonal matching flags.
         (array[0] === array[4] && array[4] === array[8]) || (array[2] === array[4] && array[4] === array[6])
         ){
+            
         //End the game if there is a winner.
         let game = false
         return game
