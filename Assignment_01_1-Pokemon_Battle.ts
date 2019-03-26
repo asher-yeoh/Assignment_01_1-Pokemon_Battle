@@ -1,7 +1,7 @@
 import { question } from 'readline-sync'
 
 //Declare function to display Pokemon list.
-function displaypokemons(array) {
+function displaypokemons (array) {
     let i = 0
     while (i < pokemons.length) {
         console.log("[" + i + "] " + array[i].name + " - [HP: " + array[i].hp + "] - [Type: " + array[i].type + "] - [ATT: " + array[i].att + "] - [DEF: " + array[i].def + "]")
@@ -10,17 +10,17 @@ function displaypokemons(array) {
 }
 
 //Declare function to display move options.
-function displayAttOptions(array) {
+function displayAttOptions (array) {
     let i = 0
     while (i < attOptions.length) {
         console.log("[" + i + "] " + array[i].move + " - [Type: " + array[i].type + "] - [Status Effect: " + array[i].status + "] - [Damage: " + array[i].damage + "]")
         i += 1 
     }
-console.log("-------------------------------------------------------------------------------------------------")
+    console.log("-------------------------------------------------------------------------------------------------")
 }
 
 //Declare function for attacker to attack.
-function attack(attackerName, defenderName, attackerATT, defenderDEF, move, moveDamage){
+function attack (attackerName, defenderName, attackerATT, defenderDEF, move, moveDamage) {
     //Attacker attacks.
     console.log("\n" + attackerName + " uses " + move + " to hit.\n")
     console.log(move + " hits for " + moveDamage + " damage.")
@@ -33,7 +33,7 @@ function attack(attackerName, defenderName, attackerATT, defenderDEF, move, move
 }
 
 //Declare function to calculate total damage according to effectiveness.
-function effectiveness(damage, defenderName, move, defenderType, moveType) {
+function effectiveness (damage, defenderName, move, defenderType, moveType) {
     if (
         (defenderType == "Fire" && moveType == "Grass") ||
         (defenderType == "Water" && moveType == "Fire") ||
@@ -41,7 +41,7 @@ function effectiveness(damage, defenderName, move, defenderType, moveType) {
         (defenderType == "Poison" && moveType == "Grass") ||
         (defenderType == "Psychic" && moveType == "Poison") ||
         (defenderType == "Ghost" && moveType == "Phychic")
-        ){
+        ) {
         let totalDamage = Math.ceil(damage / 2)
 
         console.log("\n" + defenderName + "'s elemental type is " + defenderType + ".")
@@ -58,7 +58,7 @@ function effectiveness(damage, defenderName, move, defenderType, moveType) {
         (defenderType == "Poison" && moveType == "Phychic") ||
         (defenderType == "Phychic" && moveType == "Ghost") ||
         (defenderType == "Ghost" && moveType == "Ghost")
-        ){
+        ) {
         let totalDamage = Math.ceil(damage * 2)
 
         console.log("\n" + defenderName + "'s elemental type is " + defenderType + ".")
@@ -79,7 +79,7 @@ function effectiveness(damage, defenderName, move, defenderType, moveType) {
 }
 
 //Declare function to display total damage.
-function defenderDamage(defenderName, defenderHP, totalDamage){
+function defenderDamage (defenderName, defenderHP, totalDamage) {
     defenderHP = defenderHP - totalDamage
 
     console.log("Total damage is " + totalDamage + ".")
@@ -94,16 +94,16 @@ function defenderDamage(defenderName, defenderHP, totalDamage){
 }
 
 //Declare function to display that only one status effect can be casted to defender at a time.
-function restrictStatus(defenderName, moveStatus, defenderStatusEffect, defenderCounterStatus){
-    if (moveStatus !== "None" && defenderCounterStatus !== 0){
+function restrictStatus (defenderName, moveStatus, defenderStatusEffect, defenderCounterStatus) {
+    if (moveStatus !== "None" && defenderCounterStatus !== 0) {
         console.log("\nUnable to cast " + moveStatus + " status effect to " + defenderName + " as " + defenderName + " is still under " + defenderStatusEffect + " status effect.\n")
     }
 }
 
 //Declare function to check if any status effect is casted to defender.
-function checkStatusEffect(defenderName, moveStatus, defenderStatusEffect, defenderStatusFlag, defenderCounterStatus) {
+function checkStatusEffect (defenderName, moveStatus, defenderStatusEffect, defenderStatusFlag, defenderCounterStatus) {
     //Check if Poison status effect is casted to defender - will take effect for 5 turns.
-    if (moveStatus == "Poison" && defenderStatusFlag === false){
+    if (moveStatus == "Poison" && defenderStatusFlag === false) {
         let statusEffect = moveStatus
         let statusFlag = true            
         let counterStatus = 5
@@ -114,7 +114,7 @@ function checkStatusEffect(defenderName, moveStatus, defenderStatusEffect, defen
     }
 
     //Check if Sleep status effect is casted to defender - will take effect for 3 turns.
-    else if (moveStatus == "Sleep" && defenderStatusFlag === false){
+    else if (moveStatus == "Sleep" && defenderStatusFlag === false) {
         let statusEffect = moveStatus
         let statusFlag = true            
         let counterStatus = 3
@@ -125,7 +125,7 @@ function checkStatusEffect(defenderName, moveStatus, defenderStatusEffect, defen
     }
 
     //Check if Paralysis status effect is casted to defender - will take effect for 1 turn.
-    else if (moveStatus == "Paralysis" && defenderStatusFlag === false){
+    else if (moveStatus == "Paralysis" && defenderStatusFlag === false) {
         let statusEffect = moveStatus
         let statusFlag = true            
         let counterStatus = 1
@@ -144,7 +144,7 @@ function checkStatusEffect(defenderName, moveStatus, defenderStatusEffect, defen
 }
 
 //Declare function to check if attacker is in Poison status effect.
-function statusPoison(attackerName, attackerHP, attackerStatusEffect, attackerStatusFlag, attackerCounterStatus){
+function statusPoison (attackerName, attackerHP, attackerStatusEffect, attackerStatusFlag, attackerCounterStatus) {
 
     //Display attacker is under Poison status effect.
     console.log(attackerName + " is under Poison status effect. Hence, 10% of current HP will be drained.")
@@ -165,17 +165,16 @@ function statusPoison(attackerName, attackerHP, attackerStatusEffect, attackerSt
     
     console.log(attackerStatusEffect + " status counter still left: " + attackerCounterStatus + " turn(s).\n")
 
-    if (attackerCounterStatus == 0){
+    if (attackerCounterStatus == 0) {
         attackerStatusFlag = !attackerStatusFlag
         attackerStatusEffect = "None"
     }
-
     return [attackerHP, attackerStatusEffect, attackerStatusFlag, attackerCounterStatus]
 
 }
 
 //Declare function to check if attacker is in Sleep status effect.
-function statusSleep(attackerName, attackerStatusEffect, attackerStatusFlag, attackerCounterStatus) {
+function statusSleep (attackerName, attackerStatusEffect, attackerStatusFlag, attackerCounterStatus) {
 
     //Display attacker is under Sleep status effect.
     console.log(attackerName + " is under " + attackerStatusEffect + " status effect. Hence, unable to attack.")
@@ -184,16 +183,15 @@ function statusSleep(attackerName, attackerStatusEffect, attackerStatusFlag, att
     
     console.log(attackerStatusEffect + " status counter still left: " + attackerCounterStatus + " turn(s).\n")
     
-    if (attackerCounterStatus == 0){
+    if (attackerCounterStatus == 0) {
         attackerStatusFlag = !attackerStatusFlag
         attackerStatusEffect = "None"
     }
-
     return [attackerStatusEffect, attackerStatusFlag, attackerCounterStatus]
 }
 
 //Declare function to check if attacker is in Paralysis status effect.
-function statusParalysis(attackerName, attackerStatusEffect, attackerStatusFlag, attackerCounterStatus) {
+function statusParalysis (attackerName, attackerStatusEffect, attackerStatusFlag, attackerCounterStatus) {
     //Display attacker is under Paralysis status effect.
     console.log(attackerName + " is under " + attackerStatusEffect + " status effect. Hence, unable to attack.")
 
@@ -201,11 +199,10 @@ function statusParalysis(attackerName, attackerStatusEffect, attackerStatusFlag,
     
     console.log(attackerStatusEffect + " status counter still left: " + attackerCounterStatus + " turn(s).\n")
 
-    if (attackerCounterStatus == 0){
+    if (attackerCounterStatus == 0) {
         attackerStatusFlag = !attackerStatusFlag
         attackerStatusEffect = "None"
     }
-
     return [attackerStatusEffect, attackerStatusFlag, attackerCounterStatus]
 }
 
@@ -362,8 +359,8 @@ let oppDEF = pokemons[0].def
 console.log("You have encountered a wild " + oppPokemon + ".\n")
 
 //Select a pokemon to summon.
-displaypokemons(pokemons)
-let ansPokemon = question('\nSelect a Pokemon to summon: ')
+displaypokemons (pokemons)
+let ansPokemon = question ('\nSelect a Pokemon to summon: ')
 
 //Declare the attributes for player's Pokemon.
 let myPokemon = pokemons[ansPokemon].name
@@ -382,7 +379,6 @@ console.log(oppPokemon + " has " + oppHP + " HP.")
 console.log("-------------------------------------------------------------------------------------------------")
 
 while (myHP > 0 && oppHP > 0) {
-
     //Change turn after each run of the while loop.
     let attackerName = isMyTurn ? myPokemon :oppPokemon
     let defenderName = isMyTurn ? oppPokemon : myPokemon
@@ -410,39 +406,36 @@ while (myHP > 0 && oppHP > 0) {
 
     //Player's turn.
     if (isMyTurn) {
-        if (attackerStatusEffect == "Poison"){
+        if (attackerStatusEffect == "Poison") {
             //Call out function to check if attacker is in Poison status effect.
-            let outputStatusPoison = statusPoison(attackerName, attackerHP, attackerStatusEffect, attackerStatusFlag, attackerCounterStatus)
+            let outputStatusPoison = statusPoison (attackerName, attackerHP, attackerStatusEffect, attackerStatusFlag, attackerCounterStatus)
 
             attackerHP = outputStatusPoison[0]
             attackerStatusEffect = outputStatusPoison[1]
             attackerStatusFlag = outputStatusPoison[2]
             attackerCounterStatus = outputStatusPoison[3]
         }
-
-        if (attackerStatusEffect == "Sleep"){
+        if (attackerStatusEffect == "Sleep") {
             //Call out function to check if attacker is in Sleep status effect.
-            let outputStatusSleep = statusSleep(attackerName, attackerStatusEffect, attackerStatusFlag, attackerCounterStatus)
+            let outputStatusSleep = statusSleep (attackerName, attackerStatusEffect, attackerStatusFlag, attackerCounterStatus)
 
             attackerStatusEffect = outputStatusSleep[0]
             attackerStatusFlag = outputStatusSleep[1]
             attackerCounterStatus = outputStatusSleep[2]
         }
-
-        else if (attackerStatusEffect == "Paralysis"){
+        else if (attackerStatusEffect == "Paralysis") {
             //Call out function to check if attacker is in Paralysis status effect.
-            let outputStatusParalysis= statusParalysis(attackerName, attackerStatusEffect, attackerStatusFlag, attackerCounterStatus)
+            let outputStatusParalysis = statusParalysis (attackerName, attackerStatusEffect, attackerStatusFlag, attackerCounterStatus)
 
             attackerStatusEffect = outputStatusParalysis[0]
             attackerStatusFlag = outputStatusParalysis[1]
             attackerCounterStatus = outputStatusParalysis[2]
         }
-
         else {
             //Player attacks.
             //Choose movement
-            displayAttOptions(attOptions)
-            let ansMove = question('Select a move to attack: ')
+            displayAttOptions (attOptions)
+            let ansMove = question ('Select a move to attack: ')
 
             let move = attOptions[ansMove].move
             let moveDamage = attOptions[ansMove].damage
@@ -450,19 +443,19 @@ while (myHP > 0 && oppHP > 0) {
             let moveStatus = attOptions[ansMove].status
 
             //Call out function for attacker to attack.
-            let damage = attack(attackerName, defenderName, attackerATT, defenderDEF, move, moveDamage)
+            let damage = attack (attackerName, defenderName, attackerATT, defenderDEF, move, moveDamage)
 
             //Call out function to calculate total damage according to effectiveness.
-            let totalDamage = effectiveness(damage, defenderName, move, defenderType, moveType)
+            let totalDamage = effectiveness (damage, defenderName, move, defenderType, moveType)
 
             //Call out function to display total damage.
-            defenderHP = defenderDamage(defenderName, defenderHP, totalDamage)
+            defenderHP = defenderDamage (defenderName, defenderHP, totalDamage)
 
             //Call out function to display that only one status effect can be casted to defender at a time.
-            restrictStatus(defenderName, moveStatus, defenderStatusEffect, defenderCounterStatus)
+            restrictStatus (defenderName, moveStatus, defenderStatusEffect, defenderCounterStatus)
 
             //Call out function to check if any status effect is casted to defender.
-            let outputCheckStatusEffect = checkStatusEffect(defenderName, moveStatus, defenderStatusEffect, defenderStatusFlag, defenderCounterStatus)
+            let outputCheckStatusEffect = checkStatusEffect (defenderName, moveStatus, defenderStatusEffect, defenderStatusFlag, defenderCounterStatus)
             
             defenderStatusEffect = outputCheckStatusEffect[0]
             defenderStatusFlag = outputCheckStatusEffect[1]
@@ -479,42 +472,37 @@ while (myHP > 0 && oppHP > 0) {
         myCounterStatus = attackerCounterStatus
         oppCounterStatus = defenderCounterStatus
     }
-
     //Opponent's turn.
     else {
-        if (attackerStatusEffect == "Poison"){
+        if (attackerStatusEffect == "Poison") {
             //Call out function to check if attacker is in Poison status effect.
-            let outputStatusPoison = statusPoison(attackerName, attackerHP, attackerStatusEffect, attackerStatusFlag, attackerCounterStatus)
+            let outputStatusPoison = statusPoison (attackerName, attackerHP, attackerStatusEffect, attackerStatusFlag, attackerCounterStatus)
 
             attackerHP = outputStatusPoison[0]
             attackerStatusEffect = outputStatusPoison[1]
             attackerStatusFlag = outputStatusPoison[2]
             attackerCounterStatus = outputStatusPoison[3]
         }
-
-        if (attackerStatusEffect == "Sleep"){
+        if (attackerStatusEffect == "Sleep") {
             //Call out function to check if attacker is in Sleep status effect.
-            let outputStatusSleep = statusSleep(attackerName, attackerStatusEffect, attackerStatusFlag, attackerCounterStatus)
+            let outputStatusSleep = statusSleep (attackerName, attackerStatusEffect, attackerStatusFlag, attackerCounterStatus)
 
             attackerStatusEffect = outputStatusSleep[0]
             attackerStatusFlag = outputStatusSleep[1]
             attackerCounterStatus = outputStatusSleep[2]
         }
-
-        else if (attackerStatusEffect == "Paralysis"){
+        else if (attackerStatusEffect == "Paralysis") {
             //Call out function to check if attacker is in Paralysis status effect.
-            let outputStatusParalysis= statusParalysis(attackerName, attackerStatusEffect, attackerStatusFlag, attackerCounterStatus)
+            let outputStatusParalysis= statusParalysis (attackerName, attackerStatusEffect, attackerStatusFlag, attackerCounterStatus)
 
             attackerStatusEffect = outputStatusParalysis[0]
             attackerStatusFlag = outputStatusParalysis[1]
             attackerCounterStatus = outputStatusParalysis[2]
         }
-
         else {
             //Opponent attacks.
-            
             //Randomly choose opponent's move.
-            const oppMove = Math.floor(Math.random() * 10)
+            const oppMove = Math.floor (Math.random() * 10)
             
             let move = attOptions[oppMove].move
             let moveDamage = attOptions[oppMove].damage
@@ -522,19 +510,19 @@ while (myHP > 0 && oppHP > 0) {
             let moveStatus = attOptions[oppMove].status
             
             //Call out function for attacker to attack.
-            let damage = attack(attackerName, defenderName, attackerATT, defenderDEF, move, moveDamage)
+            let damage = attack (attackerName, defenderName, attackerATT, defenderDEF, move, moveDamage)
             
             //Call out function to calculate total damage according to effectiveness.
-            let totalDamage = effectiveness(damage, defenderName, move, defenderType, moveType)
+            let totalDamage = effectiveness (damage, defenderName, move, defenderType, moveType)
            
             //Call out function to display total damage.
-            defenderHP = defenderDamage(defenderName, defenderHP, totalDamage)
+            defenderHP = defenderDamage (defenderName, defenderHP, totalDamage)
 
             //Call out function to display that only one status effect can be casted to defender at a time.
-            restrictStatus(defenderName, moveStatus, defenderStatusEffect, defenderCounterStatus)
+            restrictStatus (defenderName, moveStatus, defenderStatusEffect, defenderCounterStatus)
 
             //Call out function to check if any status effect is casted to defender.
-            let outputCheckStatusEffect = checkStatusEffect(defenderName, moveStatus, defenderStatusEffect, defenderStatusFlag, defenderCounterStatus)
+            let outputCheckStatusEffect = checkStatusEffect (defenderName, moveStatus, defenderStatusEffect, defenderStatusFlag, defenderCounterStatus)
             
             defenderStatusEffect = outputCheckStatusEffect[0]
             defenderStatusFlag = outputCheckStatusEffect[1]
@@ -551,7 +539,6 @@ while (myHP > 0 && oppHP > 0) {
         oppCounterStatus = attackerCounterStatus
         myCounterStatus = defenderCounterStatus
     }
-
     isMyTurn = !isMyTurn
 
     console.log("-------------------------------------------------------------------------------------------------") 
