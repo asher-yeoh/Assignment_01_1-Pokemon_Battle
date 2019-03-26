@@ -101,7 +101,7 @@ function restrictStatus(defenderName, moveStatus, defenderStatusEffect, defender
 }
 
 //Declare function to check if any status effect is casted to defender.
-function checkStatusEffect (defenderName, moveStatus, defenderStatusEffect, defenderStatusFlag, defenderCounterStatus) {
+function checkStatusEffect(defenderName, moveStatus, defenderStatusEffect, defenderStatusFlag, defenderCounterStatus) {
     //Check if Poison status effect is casted to defender - will take effect for 5 turns.
     if (moveStatus == "Poison" && defenderStatusFlag === false) {
         let statusEffect = moveStatus
@@ -170,7 +170,6 @@ function statusPoison(attackerName, attackerHP, attackerStatusEffect, attackerSt
         attackerStatusEffect = "None"
     }
     return [attackerHP, attackerStatusEffect, attackerStatusFlag, attackerCounterStatus]
-
 }
 
 //Declare function to check if attacker is in Sleep status effect.
@@ -394,7 +393,7 @@ while (myHP > 0 && oppHP > 0) {
 
     let attackerStatusEffect = isMyTurn ? myStatusEffect : oppStatusEffect
     let defenderStatusEffect = isMyTurn ? oppStatusEffect : myStatusEffect
-    let attackerStatusFlag= isMyTurn ? myStatusFlag : oppStatusFlag
+    let attackerStatusFlag = isMyTurn ? myStatusFlag : oppStatusFlag
     let defenderStatusFlag = isMyTurn ? oppStatusFlag : myStatusFlag
     let attackerCounterStatus = isMyTurn ? myCounterStatus : oppCounterStatus
     let defenderCounterStatus = isMyTurn ? oppCounterStatus : myCounterStatus
@@ -493,7 +492,7 @@ while (myHP > 0 && oppHP > 0) {
         }
         else if (attackerStatusEffect == "Paralysis") {
             //Call out function to check if attacker is in Paralysis status effect.
-            let outputStatusParalysis= statusParalysis(attackerName, attackerStatusEffect, attackerStatusFlag, attackerCounterStatus)
+            let outputStatusParalysis = statusParalysis(attackerName, attackerStatusEffect, attackerStatusFlag, attackerCounterStatus)
 
             attackerStatusEffect = outputStatusParalysis[0]
             attackerStatusFlag = outputStatusParalysis[1]
