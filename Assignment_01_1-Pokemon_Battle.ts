@@ -168,6 +168,14 @@ function checkStatusEffect(defenderName, moveStatus, defenderStatusEffect, defen
     }
 }
 
+//Declare function to display the attacker has used Hyper Beam move on the previous turn.
+function hyperBeam(attackerHyperBeam) {
+
+    attackerHyperBeam = false
+
+    return attackerHyperBeam
+}
+
 //Declare function to check if the attacker is in Poison status effect.
 function statusPoison(attackerName, attackerHP, attackerStatusEffect, attackerStatusFlag, attackerStatusCounter) {
 
@@ -195,14 +203,6 @@ function statusPoison(attackerName, attackerHP, attackerStatusEffect, attackerSt
         attackerStatusEffect = "None"
     }
     return [attackerHP, attackerStatusEffect, attackerStatusFlag, attackerStatusCounter]
-}
-
-//Declare function to display the attacker has used Hyper Beam move on the previous turn.
-function hyperBeam(attackerHyperBeam) {
-
-    attackerHyperBeam = false
-
-    return attackerHyperBeam
 }
 
 //Declare function to check if the attacker is in Sleep status effect.
