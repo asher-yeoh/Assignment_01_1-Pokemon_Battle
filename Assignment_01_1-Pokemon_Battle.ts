@@ -698,4 +698,4 @@ if (myHP <= 0) {
     console.log(myPokemon + "'s HP is now 0 and fainted.")
     console.log("GAME OVER")
     console.log("-------------------------------------------------------------------------------------------------")
-}
+}--
