@@ -258,7 +258,7 @@ const pokemons = [
     },
     {
         name: "Raticate",
-        hp: 80,
+        hp: 180,
         type: "Normal",
         att: 15,
         def: 3,
@@ -317,16 +317,22 @@ const attOptions = [
     },
     {
         move: "Smog",
-        status: "Poison",
         type: "Poison",
+        status: "Poison",
         damage: 30,
     },
     {
         move: "Relic Song",
-        status: "Sleep",
         type: "Normal",
+        status: "Sleep",
         damage: 10,
-    },  
+    },
+    {
+        move: "Dream Eater",
+        type: "Phychic",
+        status: "None",
+        damage: 10,
+    },
 ]
 
 //Declare EXP points.
@@ -354,6 +360,8 @@ let oppType = pokemons[0].type
 let oppATT = pokemons[0].att
 let oppDEF = pokemons[0].def
 
+let oppMaxHP = pokemons[0].hp
+
 //Display opponent's Pokemon.
 console.log("You have encountered a wild " + oppPokemon + ".\n")
 
@@ -367,6 +375,9 @@ let myHP = pokemons[ansPokemon].hp
 let myType = pokemons[ansPokemon].type
 let myATT = pokemons[ansPokemon].att
 let myDEF = pokemons[ansPokemon].def
+
+let myMaxHP = pokemons[0].hp
+
 
 //Display player's Pokemon.
 console.log("You have summoned " + myPokemon + ".")
@@ -441,24 +452,31 @@ while (myHP > 0 && oppHP > 0) {
             let moveType = attOptions[ansMove].type
             let moveStatus = attOptions[ansMove].status
 
-            //Call out function for attacker to attack.
-            let damage = attack(attackerName, defenderName, attackerATT, defenderDEF, move, moveDamage)
+            if (move == "Dream Eater" && defenderStatusEffect != "Sleep") {
+                console.log("\nDream Eater will only take effect on " + defenderName + " if " + defenderName + " is sleeping.")
+                console.log(defenderName + "'s HP remains at " + defenderHP + ".")
+            }
+            else {
 
-            //Call out function to calculate total damage according to effectiveness.
-            let totalDamage = effectiveness(damage, defenderName, move, defenderType, moveType)
+                //Call out function for attacker to attack.
+                let damage = attack(attackerName, defenderName, attackerATT, defenderDEF, move, moveDamage)
 
-            //Call out function to display total damage.
-            defenderHP = defenderDamage(defenderName, defenderHP, totalDamage)
+                //Call out function to calculate total damage according to effectiveness.
+                let totalDamage = effectiveness(damage, defenderName, move, defenderType, moveType)
 
-            //Call out function to display that only one status effect can be casted to defender at a time.
-            restrictStatus(defenderName, moveStatus, defenderStatusEffect, defenderCounterStatus)
+                //Call out function to display total damage.
+                defenderHP = defenderDamage(defenderName, defenderHP, totalDamage)
 
-            //Call out function to check if any status effect is casted to defender.
-            let outputCheckStatusEffect = checkStatusEffect(defenderName, moveStatus, defenderStatusEffect, defenderStatusFlag, defenderCounterStatus)
-            
-            defenderStatusEffect = outputCheckStatusEffect[0]
-            defenderStatusFlag = outputCheckStatusEffect[1]
-            defenderCounterStatus = outputCheckStatusEffect[2]
+                //Call out function to display that only one status effect can be casted to defender at a time.
+                restrictStatus(defenderName, moveStatus, defenderStatusEffect, defenderCounterStatus)
+
+                //Call out function to check if any status effect is casted to defender.
+                let outputCheckStatusEffect = checkStatusEffect(defenderName, moveStatus, defenderStatusEffect, defenderStatusFlag, defenderCounterStatus)
+                
+                defenderStatusEffect = outputCheckStatusEffect[0]
+                defenderStatusFlag = outputCheckStatusEffect[1]
+                defenderCounterStatus = outputCheckStatusEffect[2]
+            }
         }
             
         myHP = attackerHP
