@@ -533,7 +533,7 @@ while (myHP > 0 && oppHP > 0) {
                     console.log(defenderName + "'s HP remains at " + defenderHP + ".")
                 }
                 else {
-                    //If the attacker selects Rain Dance as move, attacker any move in the subsequent turn.
+                    //If the attacker selects Rain Dance as move, attacker unable to perform any move in the subsequent turn.
                     if (move == "Hyper Beam") {
                         attackerHyperBeam = true
                     }
@@ -644,7 +644,7 @@ while (myHP > 0 && oppHP > 0) {
                     console.log(defenderName + "'s HP remains at " + defenderHP + ".")
                 }
                 else {
-                    //If the attacker selects Rain Dance as move, attacker any move in the subsequent turn.
+                    //If the attacker selects Rain Dance as move, attacker unable to perform any move in the subsequent turn.
                     if (move == "Hyper Beam") {
                         attackerHyperBeam = true
                     }
