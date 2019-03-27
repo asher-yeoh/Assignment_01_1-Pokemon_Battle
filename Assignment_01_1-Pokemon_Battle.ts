@@ -507,7 +507,6 @@ while (myHP > 0 && oppHP > 0) {
             }
         }
         else {
-            //The player's turn.
             //Check if the attacker has used Hyper Beam move on the previous turn.
             if (attackerHyperBeam == true){
                 //Display the attacker has used Hyper Beam move on the previous turn. Hence, unable to perform any move at this turn.
@@ -619,7 +618,6 @@ while (myHP > 0 && oppHP > 0) {
             }
         }
         else {
-            //The opponent's turn.
             //Check if the attacker has used Hyper Beam move on the previous turn.
             if (attackerHyperBeam == true){
                 //Display the attacker has used Hyper Beam move on the previous turn. Hence, unable to perform any move at this turn.
