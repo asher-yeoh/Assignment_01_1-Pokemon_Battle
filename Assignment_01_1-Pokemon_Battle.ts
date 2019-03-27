@@ -119,57 +119,57 @@ function defenderDamage(defenderName, defenderHP, totalDamage) {
 }
 
 //Declare function to display that only one status effect can be casted to the defender at a time.
-function restrictStatus(defenderName, moveStatus, defenderStatusEffect, defenderCounterStatus) {
-    if (moveStatus !== "None" && defenderCounterStatus !== 0) {
+function restrictStatus(defenderName, moveStatus, defenderStatusEffect, defenderStatusCounter) {
+    if (moveStatus !== "None" && defenderStatusCounter !== 0) {
         console.log("\nUnable to cast " + moveStatus + " status effect to " + defenderName + " as " + defenderName + " is still under " + defenderStatusEffect + " status effect.\n")
     }
 }
 
 //Declare function to check if any status effect is casted to the defender.
-function checkStatusEffect(defenderName, moveStatus, defenderStatusEffect, defenderStatusFlag, defenderCounterStatus) {
+function checkStatusEffect(defenderName, moveStatus, defenderStatusEffect, defenderStatusFlag, defenderStatusCounter) {
     //Check if Poison status effect is casted to defender - will take effect for 5 turns.
     if (moveStatus == "Poison" && defenderStatusFlag === false) {
         let statusEffect = moveStatus
         let statusFlag = true            
-        let counterStatus = 5
+        let statusCounter = 5
 
         console.log("\n" + moveStatus + " status effect is casted to " + defenderName + ".\n")
 
-        return [statusEffect, statusFlag, counterStatus]
+        return [statusEffect, statusFlag, statusCounter]
     }
 
     //Check if Sleep status effect is casted to the defender - will take effect for 3 turns.
     else if (moveStatus == "Sleep" && defenderStatusFlag === false) {
         let statusEffect = moveStatus
         let statusFlag = true            
-        let counterStatus = 3
+        let statusCounter = 3
 
         console.log("\n" + moveStatus + " status effect is casted to " + defenderName + ".\n")
 
-        return [statusEffect, statusFlag, counterStatus]
+        return [statusEffect, statusFlag, statusCounter]
     }
 
     //Check if Paralysis status effect is casted to the defender - will take effect for 1 turn.
     else if (moveStatus == "Paralysis" && defenderStatusFlag === false) {
         let statusEffect = moveStatus
         let statusFlag = true            
-        let counterStatus = 1
+        let statusCounter = 1
 
         console.log("\n" + moveStatus + " status effect is casted to " + defenderName + ".\n")
 
-        return [statusEffect, statusFlag, counterStatus]
+        return [statusEffect, statusFlag, statusCounter]
     }
     else {
         let statusEffect = defenderStatusEffect
         let statusFlag = defenderStatusFlag            
-        let counterStatus = defenderCounterStatus
+        let statusCounter = defenderStatusCounter
 
-        return [statusEffect, statusFlag, counterStatus]
+        return [statusEffect, statusFlag, statusCounter]
     }
 }
 
 //Declare function to check if the attacker is in Poison status effect.
-function statusPoison(attackerName, attackerHP, attackerStatusEffect, attackerStatusFlag, attackerCounterStatus) {
+function statusPoison(attackerName, attackerHP, attackerStatusEffect, attackerStatusFlag, attackerStatusCounter) {
 
     //Display the attacker is under Poison status effect.
     console.log(attackerName + " is under Poison status effect. Hence, 10% of current HP will be drained.")
@@ -186,15 +186,15 @@ function statusPoison(attackerName, attackerHP, attackerStatusEffect, attackerSt
 
     console.log(attackerName + "'s HP is reduced to " + attackerHP + ".")
 
-    attackerCounterStatus -= 1
+    attackerStatusCounter -= 1
     
-    console.log(attackerStatusEffect + " status counter still left: " + attackerCounterStatus + " turn(s).\n")
+    console.log(attackerStatusEffect + " status counter still left: " + attackerStatusCounter + " turn(s).\n")
 
-    if (attackerCounterStatus == 0) {
+    if (attackerStatusCounter == 0) {
         attackerStatusFlag = !attackerStatusFlag
         attackerStatusEffect = "None"
     }
-    return [attackerHP, attackerStatusEffect, attackerStatusFlag, attackerCounterStatus]
+    return [attackerHP, attackerStatusEffect, attackerStatusFlag, attackerStatusCounter]
 }
 
 //Declare function to display the attacker has used Hyper Beam move on the previous turn.
@@ -206,37 +206,37 @@ function hyperBeam(attackerHyperBeam) {
 }
 
 //Declare function to check if the attacker is in Sleep status effect.
-function statusSleep(attackerName, attackerStatusEffect, attackerStatusFlag, attackerCounterStatus) {
+function statusSleep(attackerName, attackerStatusEffect, attackerStatusFlag, attackerStatusCounter) {
 
     //Display the attacker is under Sleep status effect.
     console.log(attackerName + " is under " + attackerStatusEffect + " status effect. Hence, unable to attack.")
 
-    attackerCounterStatus -= 1
+    attackerStatusCounter -= 1
     
-    console.log(attackerStatusEffect + " status counter still left: " + attackerCounterStatus + " turn(s).\n")
+    console.log(attackerStatusEffect + " status counter still left: " + attackerStatusCounter + " turn(s).\n")
     
-    if (attackerCounterStatus == 0) {
+    if (attackerStatusCounter == 0) {
         attackerStatusFlag = !attackerStatusFlag
         attackerStatusEffect = "None"
     }
     
-    return [attackerStatusEffect, attackerStatusFlag, attackerCounterStatus]
+    return [attackerStatusEffect, attackerStatusFlag, attackerStatusCounter]
 }
 
 //Declare function to check if the attacker is in Paralysis status effect.
-function statusParalysis(attackerName, attackerStatusEffect, attackerStatusFlag, attackerCounterStatus) {
+function statusParalysis(attackerName, attackerStatusEffect, attackerStatusFlag, attackerStatusCounter) {
     //Display attacker is under Paralysis status effect.
     console.log(attackerName + " is under " + attackerStatusEffect + " status effect. Hence, unable to attack.")
 
-    attackerCounterStatus -= 1
+    attackerStatusCounter -= 1
     
-    console.log(attackerStatusEffect + " status counter still left: " + attackerCounterStatus + " turn(s).\n")
+    console.log(attackerStatusEffect + " status counter still left: " + attackerStatusCounter + " turn(s).\n")
 
-    if (attackerCounterStatus == 0) {
+    if (attackerStatusCounter == 0) {
         attackerStatusFlag = !attackerStatusFlag
         attackerStatusEffect = "None"
     }
-    return [attackerStatusEffect, attackerStatusFlag, attackerCounterStatus]
+    return [attackerStatusEffect, attackerStatusFlag, attackerStatusCounter]
 }
 
 //Declare Pokemons' attributes.
@@ -390,14 +390,14 @@ let isMyTurn = true
 //Initialize status effect attributes for the player's Pokemon.
 let myStatusEffect = "None"
 let myStatusFlag = false          
-let myCounterStatus = 0
+let myStatusCounter = 0
 let myRainDance = false
 let myHyperBeam = false
 
 //Initialize status effect attributes for the opponent.
 let oppStatusEffect = "None"
 let oppStatusFlag = false          
-let oppCounterStatus = 0
+let oppStatusCounter = 0
 let oppRainDance = false
 let oppHyperBeam = false
 
@@ -454,8 +454,8 @@ while (myHP > 0 && oppHP > 0) {
     let defenderStatusEffect = isMyTurn ? oppStatusEffect : myStatusEffect
     let attackerStatusFlag = isMyTurn ? myStatusFlag : oppStatusFlag
     let defenderStatusFlag = isMyTurn ? oppStatusFlag : myStatusFlag
-    let attackerCounterStatus = isMyTurn ? myCounterStatus : oppCounterStatus
-    let defenderCounterStatus = isMyTurn ? oppCounterStatus : myCounterStatus
+    let attackerStatusCounter = isMyTurn ? myStatusCounter : oppStatusCounter
+    let defenderStatusCounter = isMyTurn ? oppStatusCounter : myStatusCounter
 
     let defenderRainDance = isMyTurn ? oppRainDance : myRainDance
     
@@ -470,21 +470,21 @@ while (myHP > 0 && oppHP > 0) {
     if (isMyTurn) {
         if (attackerStatusEffect == "Poison") {
             //Call out function to check if the attacker is in Poison status effect.
-            let outputStatusPoison = statusPoison(attackerName, attackerHP, attackerStatusEffect, attackerStatusFlag, attackerCounterStatus)
+            let outputStatusPoison = statusPoison(attackerName, attackerHP, attackerStatusEffect, attackerStatusFlag, attackerStatusCounter)
 
             attackerHP = outputStatusPoison[0]
             attackerStatusEffect = outputStatusPoison[1]
             attackerStatusFlag = outputStatusPoison[2]
-            attackerCounterStatus = outputStatusPoison[3]
+            attackerStatusCounter = outputStatusPoison[3]
         }
 
         if (attackerStatusEffect == "Sleep") {
             //Call out function to check if the attacker is in Sleep status effect.
-            let outputStatusSleep = statusSleep(attackerName, attackerStatusEffect, attackerStatusFlag, attackerCounterStatus)
+            let outputStatusSleep = statusSleep(attackerName, attackerStatusEffect, attackerStatusFlag, attackerStatusCounter)
 
             attackerStatusEffect = outputStatusSleep[0]
             attackerStatusFlag = outputStatusSleep[1]
-            attackerCounterStatus = outputStatusSleep[2]
+            attackerStatusCounter = outputStatusSleep[2]
 
             //Check if the attacker has used Hyper Beam move on the previous turn.
             if (attackerHyperBeam == true){          
@@ -494,11 +494,11 @@ while (myHP > 0 && oppHP > 0) {
         }
         else if (attackerStatusEffect == "Paralysis") {
             //Call out function to check if the attacker is in Paralysis status effect.
-            let outputStatusParalysis = statusParalysis(attackerName, attackerStatusEffect, attackerStatusFlag, attackerCounterStatus)
+            let outputStatusParalysis = statusParalysis(attackerName, attackerStatusEffect, attackerStatusFlag, attackerStatusCounter)
 
             attackerStatusEffect = outputStatusParalysis[0]
             attackerStatusFlag = outputStatusParalysis[1]
-            attackerCounterStatus = outputStatusParalysis[2]
+            attackerStatusCounter = outputStatusParalysis[2]
 
             //Check if the attacker has used Hyper Beam move on the previous turn.
             if (attackerHyperBeam == true){          
@@ -553,14 +553,14 @@ while (myHP > 0 && oppHP > 0) {
                     defenderHP = defenderDamage(defenderName, defenderHP, totalDamage)
 
                     //Call out function to display that only one status effect can be casted to the defender at a time.
-                    restrictStatus(defenderName, moveStatus, defenderStatusEffect, defenderCounterStatus)
+                    restrictStatus(defenderName, moveStatus, defenderStatusEffect, defenderStatusCounter)
 
                     //Call out function to check if any status effect is casted to the defender.
-                    let outputCheckStatusEffect = checkStatusEffect(defenderName, moveStatus, defenderStatusEffect, defenderStatusFlag, defenderCounterStatus)
+                    let outputCheckStatusEffect = checkStatusEffect(defenderName, moveStatus, defenderStatusEffect, defenderStatusFlag, defenderStatusCounter)
                     
                     defenderStatusEffect = outputCheckStatusEffect[0]
                     defenderStatusFlag = outputCheckStatusEffect[1]
-                    defenderCounterStatus = outputCheckStatusEffect[2]
+                    defenderStatusCounter = outputCheckStatusEffect[2]
                 }
             }
         }
@@ -572,8 +572,8 @@ while (myHP > 0 && oppHP > 0) {
         oppStatusEffect = defenderStatusEffect
         myStatusFlag = attackerStatusFlag
         oppStatusFlag = defenderStatusFlag
-        myCounterStatus = attackerCounterStatus
-        oppCounterStatus = defenderCounterStatus
+        myStatusCounter = attackerStatusCounter
+        oppStatusCounter = defenderStatusCounter
 
         oppRainDance = defenderRainDance
         myHyperBeam = attackerHyperBeam
@@ -582,21 +582,21 @@ while (myHP > 0 && oppHP > 0) {
     else {
         if (attackerStatusEffect == "Poison") {
             //Call out function to check if the attacker is in Poison status effect.
-            let outputStatusPoison = statusPoison(attackerName, attackerHP, attackerStatusEffect, attackerStatusFlag, attackerCounterStatus)
+            let outputStatusPoison = statusPoison(attackerName, attackerHP, attackerStatusEffect, attackerStatusFlag, attackerStatusCounter)
 
             attackerHP = outputStatusPoison[0]
             attackerStatusEffect = outputStatusPoison[1]
             attackerStatusFlag = outputStatusPoison[2]
-            attackerCounterStatus = outputStatusPoison[3]
+            attackerStatusCounter = outputStatusPoison[3]
         }
 
         if (attackerStatusEffect == "Sleep") {
             //Call out function to check if the attacker is in Sleep status effect.
-            let outputStatusSleep = statusSleep(attackerName, attackerStatusEffect, attackerStatusFlag, attackerCounterStatus)
+            let outputStatusSleep = statusSleep(attackerName, attackerStatusEffect, attackerStatusFlag, attackerStatusCounter)
 
             attackerStatusEffect = outputStatusSleep[0]
             attackerStatusFlag = outputStatusSleep[1]
-            attackerCounterStatus = outputStatusSleep[2]
+            attackerStatusCounter = outputStatusSleep[2]
 
             //Check if the attacker has used Hyper Beam move on the previous turn.
             if (attackerHyperBeam == true){
@@ -606,11 +606,11 @@ while (myHP > 0 && oppHP > 0) {
         }
         else if (attackerStatusEffect == "Paralysis") {
             //Call out function to check if the attacker is in Paralysis status effect.
-            let outputStatusParalysis = statusParalysis(attackerName, attackerStatusEffect, attackerStatusFlag, attackerCounterStatus)
+            let outputStatusParalysis = statusParalysis(attackerName, attackerStatusEffect, attackerStatusFlag, attackerStatusCounter)
 
             attackerStatusEffect = outputStatusParalysis[0]
             attackerStatusFlag = outputStatusParalysis[1]
-            attackerCounterStatus = outputStatusParalysis[2]
+            attackerStatusCounter = outputStatusParalysis[2]
 
             //Check if the attacker has used Hyper Beam move on the previous turn.
             if (attackerHyperBeam == true){
@@ -664,14 +664,14 @@ while (myHP > 0 && oppHP > 0) {
                     defenderHP = defenderDamage(defenderName, defenderHP, totalDamage)
 
                     //Call out function to display that only one status effect can be casted to the defender at a time.
-                    restrictStatus(defenderName, moveStatus, defenderStatusEffect, defenderCounterStatus)
+                    restrictStatus(defenderName, moveStatus, defenderStatusEffect, defenderStatusCounter)
 
                     //Call out function to check if any status effect is casted to the defender.
-                    let outputCheckStatusEffect = checkStatusEffect(defenderName, moveStatus, defenderStatusEffect, defenderStatusFlag, defenderCounterStatus)
+                    let outputCheckStatusEffect = checkStatusEffect(defenderName, moveStatus, defenderStatusEffect, defenderStatusFlag, defenderStatusCounter)
                     
                     defenderStatusEffect = outputCheckStatusEffect[0]
                     defenderStatusFlag = outputCheckStatusEffect[1]
-                    defenderCounterStatus = outputCheckStatusEffect[2]
+                    defenderStatusCounter = outputCheckStatusEffect[2]
                 }
             }
         }
@@ -683,8 +683,8 @@ while (myHP > 0 && oppHP > 0) {
         myStatusEffect = defenderStatusEffect
         oppStatusFlag = attackerStatusFlag
         myStatusFlag = defenderStatusFlag
-        oppCounterStatus = attackerCounterStatus
-        myCounterStatus = defenderCounterStatus
+        oppStatusCounter = attackerStatusCounter
+        myStatusCounter = defenderStatusCounter
 
         myRainDance = defenderRainDance
         oppHyperBeam = attackerHyperBeam
