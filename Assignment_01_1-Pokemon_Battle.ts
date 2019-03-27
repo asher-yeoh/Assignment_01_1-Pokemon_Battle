@@ -64,6 +64,7 @@ function effectiveness(damage, defenderName, move, defenderType, moveType, defen
         console.log(move + "'s elemental type is " + moveType)
         console.log(moveType + " elemental type is resistant to " + defenderType + " elemental type. Hence, halves the damage.")
 
+        //Call out function to calculate where water attacks will do 50% more damage if Rain Dance has been used by attacker during the battle.
         totalDamage = rainDance(defenderName, defenderRainDance, moveType, totalDamage)
 
         return totalDamage
@@ -83,6 +84,7 @@ function effectiveness(damage, defenderName, move, defenderType, moveType, defen
         console.log(move + "'s elemental type is " + moveType)
         console.log(moveType + " elemental type is effective against " + defenderType + " elemental type. Hence, the damage is doubled.")   
 
+        //Call out function to calculate where water attacks will do 50% more damage if Rain Dance has been used by attacker during the battle.
         totalDamage = rainDance(defenderName, defenderRainDance, moveType, totalDamage)
 
         return totalDamage
@@ -94,6 +96,7 @@ function effectiveness(damage, defenderName, move, defenderType, moveType, defen
         console.log(move + "'s elemental type is " + moveType)
         console.log(moveType + " elemental type has no effect against " + defenderType + " elemental type. Hence, no changes on damage.")
 
+        //Call out function to calculate where water attacks will do 50% more damage if Rain Dance has been used by attacker during the battle.
         totalDamage = rainDance(defenderName, defenderRainDance, moveType, totalDamage)
 
         return totalDamage
@@ -485,7 +488,7 @@ while (myHP > 0 && oppHP > 0) {
                 console.log(defenderName + "'s HP remains at " + defenderHP + ".")
             }
             else {
-                //Call out function to calculate where water attacks will do 50% more damage if Rain Dance has been used by attacker during the battle.
+                //If attacker chooses Rain Dance as move, all subsequent water attacks will do 50% more damage during the battle.
                 if (move == "Rain Dance" && defenderRainDance === false){
                     defenderRainDance = true
                 }
@@ -566,7 +569,7 @@ while (myHP > 0 && oppHP > 0) {
                 console.log(defenderName + "'s HP remains at " + defenderHP + ".")
             }
             else {
-                //Call out function to calculate where water attacks will do 50% more damage if Rain Dance has been used by attacker during the battle.
+                //If attacker chooses Rain Dance as move, all subsequent water attacks will do 50% more damage during the battle.
                 if (move == "Rain Dance" && defenderRainDance === false){
                     defenderRainDance = true
                 }
