@@ -452,12 +452,12 @@ while (myHP > 0 && oppHP > 0) {
             let moveType = attOptions[ansMove].type
             let moveStatus = attOptions[ansMove].status
 
+            //If attacker chooses Dream Eater as move, only will take effect if target is in Sleep status effect.
             if (move == "Dream Eater" && defenderStatusEffect != "Sleep") {
                 console.log("\nDream Eater will only take effect on " + defenderName + " if " + defenderName + " is sleeping.")
                 console.log(defenderName + "'s HP remains at " + defenderHP + ".")
             }
             else {
-
                 //Call out function for attacker to attack.
                 let damage = attack(attackerName, defenderName, attackerATT, defenderDEF, move, moveDamage)
 
@@ -519,31 +519,38 @@ while (myHP > 0 && oppHP > 0) {
         else {
             //Opponent attacks.
             //Randomly choose opponent's move.
-            const oppMove = Math.floor(Math.random() * 10)
+            const oppMove = Math.floor(Math.random() * 11)
             
             let move = attOptions[oppMove].move
             let moveDamage = attOptions[oppMove].damage
             let moveType = attOptions[oppMove].type
             let moveStatus = attOptions[oppMove].status
-            
-            //Call out function for attacker to attack.
-            let damage = attack(attackerName, defenderName, attackerATT, defenderDEF, move, moveDamage)
-            
-            //Call out function to calculate total damage according to effectiveness.
-            let totalDamage = effectiveness(damage, defenderName, move, defenderType, moveType)
-           
-            //Call out function to display total damage.
-            defenderHP = defenderDamage(defenderName, defenderHP, totalDamage)
 
-            //Call out function to display that only one status effect can be casted to defender at a time.
-            restrictStatus(defenderName, moveStatus, defenderStatusEffect, defenderCounterStatus)
-
-            //Call out function to check if any status effect is casted to defender.
-            let outputCheckStatusEffect = checkStatusEffect(defenderName, moveStatus, defenderStatusEffect, defenderStatusFlag, defenderCounterStatus)
+            //If attacker chooses Dream Eater as move, only will take effect if target is in Sleep status effect.
+            if (move == "Dream Eater" && defenderStatusEffect != "Sleep") {
+                console.log("\nDream Eater will only take effect on " + defenderName + " if " + defenderName + " is sleeping.")
+                console.log(defenderName + "'s HP remains at " + defenderHP + ".")
+            }
+            else {
+                //Call out function for attacker to attack.
+                let damage = attack(attackerName, defenderName, attackerATT, defenderDEF, move, moveDamage)
+                
+                //Call out function to calculate total damage according to effectiveness.
+                let totalDamage = effectiveness(damage, defenderName, move, defenderType, moveType)
             
-            defenderStatusEffect = outputCheckStatusEffect[0]
-            defenderStatusFlag = outputCheckStatusEffect[1]
-            defenderCounterStatus = outputCheckStatusEffect[2]
+                //Call out function to display total damage.
+                defenderHP = defenderDamage(defenderName, defenderHP, totalDamage)
+
+                //Call out function to display that only one status effect can be casted to defender at a time.
+                restrictStatus(defenderName, moveStatus, defenderStatusEffect, defenderCounterStatus)
+
+                //Call out function to check if any status effect is casted to defender.
+                let outputCheckStatusEffect = checkStatusEffect(defenderName, moveStatus, defenderStatusEffect, defenderStatusFlag, defenderCounterStatus)
+                
+                defenderStatusEffect = outputCheckStatusEffect[0]
+                defenderStatusFlag = outputCheckStatusEffect[1]
+                defenderCounterStatus = outputCheckStatusEffect[2]
+            }
         }
 
         oppHP = attackerHP
