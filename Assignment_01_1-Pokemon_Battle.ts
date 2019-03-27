@@ -403,40 +403,43 @@ let oppHyperBeam = false
 
 console.log("-------------------------------------------------------------------------------------------------")
 
+//Randomly selects the opponent's Pokemon.
+const oppPokemon = Math.floor(Math.random() * pokemons.length)
+                
 //Declare the attributes for the opponent's Pokemon.
-let oppPokemon = pokemons[0].name
-let oppHP = pokemons[0].hp
-let oppType = pokemons[0].type
-let oppATT = pokemons[0].att
-let oppDEF = pokemons[0].def
+let oppName = pokemons[oppPokemon].name
+let oppHP = pokemons[oppPokemon].hp
+let oppType = pokemons[oppPokemon].type
+let oppATT = pokemons[oppPokemon].att
+let oppDEF = pokemons[oppPokemon].def
 
 //Display the opponent's Pokemon.
-console.log("You have encountered a wild " + oppPokemon + ".\n")
+console.log("You have encountered a wild " + oppName + ".\n")
 
 //The player can select a Pokemon to summon.
 displaypokemons(pokemons)
-let ansPokemon = question('\nSelect a Pokemon to summon: ')
+let myPokemon = question('\nSelect a Pokemon to summon: ')
 
 //Declare the attributes for player's Pokemon.
-let myPokemon = pokemons[ansPokemon].name
-let myHP = pokemons[ansPokemon].hp
-let myType = pokemons[ansPokemon].type
-let myATT = pokemons[ansPokemon].att
-let myDEF = pokemons[ansPokemon].def
+let myName = pokemons[myPokemon].name
+let myHP = pokemons[myPokemon].hp
+let myType = pokemons[myPokemon].type
+let myATT = pokemons[myPokemon].att
+let myDEF = pokemons[myPokemon].def
 
 //Display the player's selected Pokemon.
-console.log("You have summoned " + myPokemon + ".")
+console.log("You have summoned " + myName + ".")
 
 //Display both payer's Pokemon and opponent's HP.
-console.log(myPokemon + " has " + myHP + " HP.")
-console.log(oppPokemon + " has " + oppHP + " HP.")
+console.log(myName + " has " + myHP + " HP.")
+console.log(oppName + " has " + oppHP + " HP.")
 
 console.log("-------------------------------------------------------------------------------------------------")
 
 while (myHP > 0 && oppHP > 0) {
     //Change turn after each run of the while loop.
-    let attackerName = isMyTurn ? myPokemon :oppPokemon
-    let defenderName = isMyTurn ? oppPokemon : myPokemon
+    let attackerName = isMyTurn ? myName :oppName
+    let defenderName = isMyTurn ? oppName : myName
 
     let attackerHP = isMyTurn ? myHP : oppHP
     let defenderHP = isMyTurn ? oppHP : myHP
@@ -474,6 +477,7 @@ while (myHP > 0 && oppHP > 0) {
             attackerStatusFlag = outputStatusPoison[2]
             attackerCounterStatus = outputStatusPoison[3]
         }
+
         if (attackerStatusEffect == "Sleep") {
             //Call out function to check if the attacker is in Sleep status effect.
             let outputStatusSleep = statusSleep(attackerName, attackerStatusEffect, attackerStatusFlag, attackerCounterStatus)
@@ -524,7 +528,8 @@ while (myHP > 0 && oppHP > 0) {
 
                 //If the attacker selects Dream Eater as move, only will take effect if target is in Sleep status effect.
                 if (move == "Dream Eater" && defenderStatusEffect != "Sleep") {
-                    console.log("\nDream Eater will only take effect on " + defenderName + " if " + defenderName + " is sleeping.")
+                    console.log("\n" + attackerName + " uses " + move + " to hit.\n")
+                    console.log("Dream Eater will only take effect on " + defenderName + " if " + defenderName + " is sleeping.\n")
                     console.log(defenderName + "'s HP remains at " + defenderHP + ".")
                 }
                 else {
@@ -584,6 +589,7 @@ while (myHP > 0 && oppHP > 0) {
             attackerStatusFlag = outputStatusPoison[2]
             attackerCounterStatus = outputStatusPoison[3]
         }
+
         if (attackerStatusEffect == "Sleep") {
             //Call out function to check if the attacker is in Sleep status effect.
             let outputStatusSleep = statusSleep(attackerName, attackerStatusEffect, attackerStatusFlag, attackerCounterStatus)
@@ -624,7 +630,7 @@ while (myHP > 0 && oppHP > 0) {
             }
             else {
                 //Randomly selects the opponent's move.
-                const oppMove = Math.floor(Math.random() * 13)
+                const oppMove = Math.floor(Math.random() * attOptions.length)
                 
                 let move = attOptions[oppMove].move
                 let moveDamage = attOptions[oppMove].damage
@@ -633,10 +639,16 @@ while (myHP > 0 && oppHP > 0) {
 
                 //If the attacker selects Dream Eater as move, only will take effect if target is in Sleep status effect.
                 if (move == "Dream Eater" && defenderStatusEffect != "Sleep") {
-                    console.log("\nDream Eater will only take effect on " + defenderName + " if " + defenderName + " is sleeping.")
+                    console.log("\n" + attackerName + " uses " + move + " to hit.\n")
+                    console.log("Dream Eater will only take effect on " + defenderName + " if " + defenderName + " is sleeping.\n")
                     console.log(defenderName + "'s HP remains at " + defenderHP + ".")
                 }
                 else {
+                    //If the attacker selects Rain Dance as move, attacker any move in the subsequent turn.
+                    if (move == "Hyper Beam") {
+                        attackerHyperBeam = true
+                    }
+
                     //If the attacker selects Rain Dance as move, all subsequent water attacks will do 50% more damage during the battle.
                     if (move == "Rain Dance" && defenderRainDance === false){
                         defenderRainDance = true
@@ -686,8 +698,8 @@ while (myHP > 0 && oppHP > 0) {
 //The player earns EXP points.
 if (oppHP <= 0) {
     console.log("-------------------------------------------------------------------------------------------------")
-    console.log(oppPokemon + "'s HP is now 0 and fainted.")
-    console.log(myPokemon + " has gained "+ exp + " EXP.")
+    console.log(oppName + "'s HP is now 0 and fainted.")
+    console.log(myName + " has gained "+ exp + " EXP.")
     console.log("-------------------------------------------------------------------------------------------------")
 }
 
@@ -695,7 +707,7 @@ if (oppHP <= 0) {
 //GAME OVER.
 if (myHP <= 0) {
     console.log("-------------------------------------------------------------------------------------------------")
-    console.log(myPokemon + "'s HP is now 0 and fainted.")
+    console.log(myName + "'s HP is now 0 and fainted.")
     console.log("GAME OVER")
     console.log("-------------------------------------------------------------------------------------------------")
 }
