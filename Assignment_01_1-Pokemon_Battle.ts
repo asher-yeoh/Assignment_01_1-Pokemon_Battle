@@ -29,11 +29,27 @@ function attack(attackerName, defenderName, attackerATT, defenderDEF, move, move
     console.log(defenderName + "'s DEF value is " + defenderDEF + ".")
 
     let damage = (moveDamage + attackerATT) - defenderDEF
+
     return damage
 }
 
+//Declare function to calculate where water attacks will do 50% more damage if Rain Dance has been used by attacker during the battle.
+function rainDance(defenderName, defenderRainDance, moveType, damage) {
+    if (defenderRainDance === true && moveType == "Water"){
+        let rainDanceDamage = Math.ceil(damage * 1.5)
+
+        console.log("\nRain Dance has been used on " + defenderName +  " during the battle. Hence all water attacks will do 50% more damage.\n") 
+
+        return rainDanceDamage
+    }
+    else {
+        let rainDanceDamage = damage
+        return rainDanceDamage
+    }
+}
+
 //Declare function to calculate total damage according to effectiveness.
-function effectiveness(damage, defenderName, move, defenderType, moveType) {
+function effectiveness(damage, defenderName, move, defenderType, moveType, defenderRainDance) {
     if (
         (defenderType == "Fire" && moveType == "Grass") ||
         (defenderType == "Water" && moveType == "Fire") ||
@@ -47,7 +63,9 @@ function effectiveness(damage, defenderName, move, defenderType, moveType) {
         console.log("\n" + defenderName + "'s elemental type is " + defenderType + ".")
         console.log(move + "'s elemental type is " + moveType)
         console.log(moveType + " elemental type is resistant to " + defenderType + " elemental type. Hence, halves the damage.")
-        
+
+        totalDamage = rainDance(defenderName, defenderRainDance, moveType, totalDamage)
+
         return totalDamage
     }
     else if (
@@ -63,8 +81,10 @@ function effectiveness(damage, defenderName, move, defenderType, moveType) {
 
         console.log("\n" + defenderName + "'s elemental type is " + defenderType + ".")
         console.log(move + "'s elemental type is " + moveType)
-        console.log(moveType + " elemental type is effective against " + defenderType + " elemental type. Hence, the damage is doubled.")
-        
+        console.log(moveType + " elemental type is effective against " + defenderType + " elemental type. Hence, the damage is doubled.")   
+
+        totalDamage = rainDance(defenderName, defenderRainDance, moveType, totalDamage)
+
         return totalDamage
     }
     else {
@@ -73,7 +93,9 @@ function effectiveness(damage, defenderName, move, defenderType, moveType) {
         console.log("\n" + defenderName + "'s elemental type is " + defenderType)
         console.log(move + "'s elemental type is " + moveType)
         console.log(moveType + " elemental type has no effect against " + defenderType + " elemental type. Hence, no changes on damage.")
-        
+
+        totalDamage = rainDance(defenderName, defenderRainDance, moveType, totalDamage)
+
         return totalDamage
     }
 }
@@ -333,6 +355,12 @@ const attOptions = [
         status: "None",
         damage: 10,
     },
+    {
+        move: "Rain Dance",
+        type: "Water",
+        status: "None",
+        damage: 16,
+    },
 ]
 
 //Declare EXP points.
@@ -345,11 +373,13 @@ let isMyTurn = true
 let myStatusEffect = "None"
 let myStatusFlag = false          
 let myCounterStatus = 0
+let myRainDance = false
 
 //Initialize status effect attributes for opponent.
 let oppStatusEffect = "None"
 let oppStatusFlag = false          
 let oppCounterStatus = 0
+let oppRainDance = false
 
 console.log("-------------------------------------------------------------------------------------------------")
 
@@ -359,8 +389,6 @@ let oppHP = pokemons[0].hp
 let oppType = pokemons[0].type
 let oppATT = pokemons[0].att
 let oppDEF = pokemons[0].def
-
-let oppMaxHP = pokemons[0].hp
 
 //Display opponent's Pokemon.
 console.log("You have encountered a wild " + oppPokemon + ".\n")
@@ -375,9 +403,6 @@ let myHP = pokemons[ansPokemon].hp
 let myType = pokemons[ansPokemon].type
 let myATT = pokemons[ansPokemon].att
 let myDEF = pokemons[ansPokemon].def
-
-let myMaxHP = pokemons[0].hp
-
 
 //Display player's Pokemon.
 console.log("You have summoned " + myPokemon + ".")
@@ -408,6 +433,8 @@ while (myHP > 0 && oppHP > 0) {
     let defenderStatusFlag = isMyTurn ? oppStatusFlag : myStatusFlag
     let attackerCounterStatus = isMyTurn ? myCounterStatus : oppCounterStatus
     let defenderCounterStatus = isMyTurn ? oppCounterStatus : myCounterStatus
+
+    let defenderRainDance = isMyTurn ? oppRainDance : myRainDance
 
     //Display attacker's turn.
     console.log("It is " + attackerName + "'s turn.")
@@ -458,11 +485,16 @@ while (myHP > 0 && oppHP > 0) {
                 console.log(defenderName + "'s HP remains at " + defenderHP + ".")
             }
             else {
+                //Call out function to calculate where water attacks will do 50% more damage if Rain Dance has been used by attacker during the battle.
+                if (move == "Rain Dance" && defenderRainDance === false){
+                    defenderRainDance = true
+                }
+
                 //Call out function for attacker to attack.
                 let damage = attack(attackerName, defenderName, attackerATT, defenderDEF, move, moveDamage)
 
                 //Call out function to calculate total damage according to effectiveness.
-                let totalDamage = effectiveness(damage, defenderName, move, defenderType, moveType)
+                let totalDamage = effectiveness(damage, defenderName, move, defenderType, moveType, defenderRainDance)
 
                 //Call out function to display total damage.
                 defenderHP = defenderDamage(defenderName, defenderHP, totalDamage)
@@ -488,6 +520,8 @@ while (myHP > 0 && oppHP > 0) {
         oppStatusFlag = defenderStatusFlag
         myCounterStatus = attackerCounterStatus
         oppCounterStatus = defenderCounterStatus
+
+        oppRainDance = defenderRainDance
     }
     //Opponent's turn.
     else {
@@ -519,7 +553,7 @@ while (myHP > 0 && oppHP > 0) {
         else {
             //Opponent attacks.
             //Randomly choose opponent's move.
-            const oppMove = Math.floor(Math.random() * 11)
+            const oppMove = Math.floor(Math.random() * 12)
             
             let move = attOptions[oppMove].move
             let moveDamage = attOptions[oppMove].damage
@@ -532,11 +566,16 @@ while (myHP > 0 && oppHP > 0) {
                 console.log(defenderName + "'s HP remains at " + defenderHP + ".")
             }
             else {
+                //Call out function to calculate where water attacks will do 50% more damage if Rain Dance has been used by attacker during the battle.
+                if (move == "Rain Dance" && defenderRainDance === false){
+                    defenderRainDance = true
+                }
+
                 //Call out function for attacker to attack.
                 let damage = attack(attackerName, defenderName, attackerATT, defenderDEF, move, moveDamage)
                 
                 //Call out function to calculate total damage according to effectiveness.
-                let totalDamage = effectiveness(damage, defenderName, move, defenderType, moveType)
+                let totalDamage = effectiveness(damage, defenderName, move, defenderType, moveType, defenderRainDance)
             
                 //Call out function to display total damage.
                 defenderHP = defenderDamage(defenderName, defenderHP, totalDamage)
@@ -562,6 +601,8 @@ while (myHP > 0 && oppHP > 0) {
         myStatusFlag = defenderStatusFlag
         oppCounterStatus = attackerCounterStatus
         myCounterStatus = defenderCounterStatus
+
+        myRainDance = defenderRainDance
     }
     isMyTurn = !isMyTurn
 
